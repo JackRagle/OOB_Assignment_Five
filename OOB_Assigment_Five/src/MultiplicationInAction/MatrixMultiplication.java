@@ -10,47 +10,101 @@ public class MatrixMultiplication {
 
 	public static void main(String[] args) throws Exception {
 		
+		Scanner in = new Scanner(System.in);
+		
 		System.out.println("Welcome to the Matrix Multiplication Tool!");
 		
 		if(args.length == 2) {
 			
-			try {
-				
-				File inOne = new File(args[0]);
-				File inTwo = new File(args[1]);
-				
-			}catch(IllegalArgumentException e) {
-				
-				System.out.println("The files that you have named do not exist.");
-				
-			}
+			int rowOne, columnOne, rowTwo, columnTwo;
 			
-			//Read values from the files and implement the matrix multiplication
-			
-		}else {
-			
-			Scanner in = new Scanner(System.in);
-			
-			int columnOne, columnTwo, rowOne, rowTwo = 0;
-			
-			System.out.println("If you would like to multiply two random matrices, enter the size of the first matrices' row(s). Must be greater than 0.");
+			System.out.println("Please enter the number of columns in the first matrix. Must be greater than 0.");
 			rowOne = in.nextInt();
 			if(rowOne < 1) {
 				in.close();
-				throw new Exception("Size must be greater than 0.");
+				throw new Exception("Number must be greater than 0.");
 			}
-			System.out.println("Please enter the size of the first matrices' column(s). Must be greater than 0.");
+			System.out.println("Please enter the number of rows in the first matrix. Must be greater than 0.");
 			columnOne = in.nextInt();
 			if(columnOne < 1) {
 				in.close();
-				throw new Exception("Size must be greater than 0.");
+				throw new Exception("Number must be greater than 0.");
 			}
 			columnTwo = rowOne;
-			System.out.println("Please enter the size of the second matrices'row(s). Must be greater than 0.");
+			System.out.println("Please enter the number of columns in the second matrix. Must be greater than 0.");
 			rowTwo = in.nextInt();
 			if(rowTwo < 1) {
 				in.close();
-				throw new Exception("Size must be greater than 0.");
+				throw new Exception("Number must be greater than 0.");
+			}
+			
+			in.close();
+			
+			File firstMatrix = new File(args[0]);
+			Scanner inOne = new Scanner(firstMatrix);
+			
+			int[][] matrixOne = new int[columnOne][rowOne], matrixTwo = new int[columnTwo][rowTwo];
+			System.out.println("The first matrix is:");
+			for(int i = 0; i < columnOne; i++) {
+				for(int j = 0; j < rowOne; j++) {
+					matrixOne[i][j] = inOne.nextInt();
+					System.out.print(matrixOne[i][j] + " ");
+				}
+				System.out.println("");
+			}
+			inOne.close();
+			
+			File secondMatrix = new File(args[1]);
+			Scanner inTwo = new Scanner(secondMatrix);
+			
+			System.out.println("The second matrix is:");
+			for(int i = 0; i < columnTwo; i++) {
+				for(int j = 0; j < rowTwo; j++) {
+					matrixTwo[i][j] = inTwo.nextInt();
+					System.out.print(matrixTwo[i][j] + " ");
+				}
+				System.out.println("");
+			}
+			inTwo.close();
+			
+			BufferedWriter outProduct = new BufferedWriter(new FileWriter("MatrixProduct.txt"));
+			System.out.println("\nThe product of matrix one times matrix two is:");
+			int[][] matrixProduct = new int[columnOne][rowTwo];
+			for(int a = 0; a < columnOne; a++) {
+				for(int b = 0; b < rowTwo; b++) {
+					for(int c = 0; c < rowOne; c++) {
+						matrixProduct[a][b] += matrixOne[a][c] * matrixTwo[c][b];
+					}
+					outProduct.write(matrixProduct[a][b] + " ");
+					System.out.print(matrixProduct[a][b] + " ");
+				}
+				outProduct.write("\n");
+				System.out.println("");
+			}
+			outProduct.close();
+			
+		}else {
+			
+			int columnOne, columnTwo, rowOne, rowTwo = 0;
+			
+			System.out.println("Please enter the number of columns in the first matrix. Must be greater than 0.");
+			rowOne = in.nextInt();
+			if(rowOne < 1) {
+				in.close();
+				throw new Exception("Number must be greater than 0.");
+			}
+			System.out.println("Please enter the number of rows in the first matrix. Must be greater than 0.");
+			columnOne = in.nextInt();
+			if(columnOne < 1) {
+				in.close();
+				throw new Exception("Number must be greater than 0.");
+			}
+			columnTwo = rowOne;
+			System.out.println("Please enter the number of columns in the second matrix. Must be greater than 0.");
+			rowTwo = in.nextInt();
+			if(rowTwo < 1) {
+				in.close();
+				throw new Exception("Number must be greater than 0.");
 			}
 			in.close();
 			
